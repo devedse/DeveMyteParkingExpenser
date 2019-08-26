@@ -16,7 +16,7 @@ Note: This software is provided without warranties. You should host this Azure t
 
 | Setting | Description | Sample |
 | -- | -- | -- |
-| accentureUserName | The username you use within Accenture to login (without @accenture.com) | heinz.smith |
+| accentureUserName | The username you use within Accenture to login (without @accenture.com) | heinz.doofenshmirtz |
 | accenturePassword | Your password | .... |
 | telegramBotToken | The token used by your bot. Can be created by talking to the BotFather: [Botfather](https://telegram.me/botfather) | 123456789:AAABABABAABA_JJDJARHAHR93F_fww84h |
 | telegramUserId | Your Telegram UserId, not sure how to find this | 123456789 |
