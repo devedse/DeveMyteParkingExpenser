@@ -1,0 +1,158 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "alwaysOn": {
+      "type": "bool",
+      "defaultValue": true
+    },
+    "sku": {
+      "type": "string",
+      "defaultValue": "Basic"
+    },
+    "skuCode": {
+      "type": "string",
+      "defaultValue": "B1"
+    },
+    "workerSize": {
+      "type": "string",
+      "defaultValue": "0"
+    },
+    "workerSizeId": {
+      "type": "string",
+      "defaultValue": "0"
+    },
+    "numberOfWorkers": {
+      "type": "string",
+      "defaultValue": "1"
+    },
+    "dockerRegistryPassword": {
+      "type": "securestring",
+      "defaultValue": null
+    },
+    "dockerRegistryStartupCommand": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "accentureUserName": {
+      "type": "string",
+      "defaultValue": "davy.davidse"
+    },
+    "accenturePassword": {
+      "type": "string"
+    },
+    "telegramBotToken": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "telegramUserId": {
+      "type": "string",
+      "defaultValue": "239844924"
+    },
+    "symantecSecret": {
+      "type": "string"
+    },
+    "subscriptionKeyFormRecognizer": {
+      "type": "string"
+    },
+    "modelIdFormRecognizer": {
+      "type": "string",
+      "defaultValue": "bc862e9e-c6b9-4d6b-902f-1456dd9b620e"
+    }
+
+  },
+  "variables": {
+    "containerName": "DOCKER|devedse/devemyteparkingexpenser",
+    "uniqueId": "[uniqueString(resourceGroup().id)]",
+    "hostingPlanName": "[concat('hostingPlan', variables('uniqueId'))]",
+    "webSiteName": "[concat('webSite', variables('uniqueId'))]"
+  },
+  "resources": [
+    {
+      "apiVersion": "2018-02-01",
+      "name": "[variables('webSiteName')]",
+      "type": "Microsoft.Web/sites",
+      "location": "[resourceGroup().location]",
+      "tags": {},
+      "dependsOn": [
+        "[concat('Microsoft.Web/serverfarms/', variables('hostingPlanName'))]"
+      ],
+      "properties": {
+        "name": "[variables('webSiteName')]",
+        "siteConfig": {
+          "appSettings": [
+            {
+              "name": "DOCKER_REGISTRY_SERVER_URL",
+              "value": "https://index.docker.io"
+            },
+            {
+              "name": "DOCKER_REGISTRY_SERVER_USERNAME",
+              "value": ""
+            },
+            {
+              "name": "DOCKER_REGISTRY_SERVER_PASSWORD",
+              "value": "[parameters('dockerRegistryPassword')]"
+            },
+            {
+              "name": "WEBSITES_ENABLE_APP_SERVICE_STORAGE",
+              "value": "false"
+            },
+            {
+              "name": "AccentureUserName",
+              "value": "[parameters('accentureUserName')]"
+            },
+            {
+              "name": "AccenturePassword",
+              "value": "[parameters('accenturePassword')]"
+            },
+            {
+              "name": "TelegramBotToken",
+              "value": "[parameters('telegramBotToken')]"
+            },
+            {
+              "name": "TelegramUserId",
+              "value": "[parameters('telegramUserId')]"
+            },
+            {
+              "name": "SymantecSecret",
+              "value": "[parameters('symantecSecret')]"
+            },
+            {
+              "name": "SubscriptionKeyFormRecognizer",
+              "value": "[parameters('subscriptionKeyFormRecognizer')]"
+            },
+            {
+              "name": "ModelIdFormRecognizer",
+              "value": "[parameters('modelIdFormRecognizer')]"
+            }
+          ],
+          "linuxFxVersion": "[variables('containerName')]",
+          "appCommandLine": "[parameters('dockerRegistryStartupCommand')]",
+          "alwaysOn": "[parameters('alwaysOn')]"
+        },
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
+        "clientAffinityEnabled": false
+      }
+    },
+    {
+      "apiVersion": "2018-02-01",
+      "name": "[variables('hostingPlanName')]",
+      "type": "Microsoft.Web/serverfarms",
+      "location": "[resourceGroup().location]",
+      "kind": "linux",
+      "tags": {},
+      "dependsOn": [],
+      "properties": {
+        "name": "[variables('hostingPlanName')]",
+        "workerSize": "[parameters('workerSize')]",
+        "workerSizeId": "[parameters('workerSizeId')]",
+        "numberOfWorkers": "[parameters('numberOfWorkers')]",
+        "reserved": true
+      },
+      "sku": {
+        "Tier": "[parameters('sku')]",
+        "Name": "[parameters('skuCode')]"
+      }
+    }
+  ]
+}
