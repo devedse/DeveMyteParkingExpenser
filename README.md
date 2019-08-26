@@ -1,5 +1,7 @@
 # DeveMyteParkingExpenser
-An internal tool used to expense receipts in MyTe
+An internal tool used to expense receipts in MyTe.
+
+Note: This software is provided without warranties. You should host this Azure template on your own private Azure Subscription so other users can't extract passwords or other secrets from the AppSettings of the application.
 
 ## Create an Azure Docker Instance that hosts a Telegram Bot
 
