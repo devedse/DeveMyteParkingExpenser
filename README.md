@@ -14,7 +14,7 @@ Note: This software is provided without warranties. You should host this Azure t
 
 ## Settings
 
-| Setting | Description | Sample |
+| Setting | Description | Example |
 | -- | -- | -- |
 | accentureUserName | The username you use within Accenture to login (without @accenture.com) | heinz.doofenshmirtz |
 | accenturePassword | Your password | .... |
